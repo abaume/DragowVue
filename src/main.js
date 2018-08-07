@@ -12,6 +12,7 @@ window.axios = axios
 window.axios.defaults.baseURL = window.API_SERVER_URL
 window.axios.defaults.headers.common['Access-Control-Allow-Origin'] = window.API_SERVER_URL
 window.axios.defaults.withCredentials = true
+window.assets = './../assets/'
 
 /* eslint-disable no-new */
 new Vue({

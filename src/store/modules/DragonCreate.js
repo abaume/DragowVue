@@ -1,6 +1,5 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -9,7 +8,7 @@ const state = {
   genders: [],
   colors: [],
   selected: {
-    selectedRace: '',
+    selectedRace: 'bb1af05a-68a3-4de6-978c-c069101926c2',
     selectedGender: '',
     selectedColor: ''
   },
@@ -17,6 +16,10 @@ const state = {
     name: '',
     gender: '',
     race: ''
+  },
+  loading: {
+    race: false,
+    color: false
   }
 }
 
@@ -33,6 +36,9 @@ const getters = {
   },
   getDragon (state) {
     return state.dragon
+  },
+  getLoading (state) {
+    return state.loading
   }
 }
 
@@ -52,18 +58,38 @@ const mutations = {
   },
   setDragonProperty (state, {prop, val}) {
     state.dragon[prop] = val
+  },
+  setLoadingProperty (state, {prop, val}) {
+    state.loading[prop] = val
   }
 }
 
 // actions
 const actions = {
   loadRaces ({commit}) {
-    axios
-      .get('http://127.0.0.1:8000/api/races').then(
+    commit('setLoadingProperty', {prop: 'race', val: true})
+    window.axios
+      .get('/races')
+      .then(
         response => {
           commit('setRaces', response.data)
+          commit('setLoadingProperty', {prop: 'race', val: false})
         })
       .catch(e => {
+        commit('setLoadingProperty', {prop: 'race', val: false})
+      })
+  },
+  loadAppearance ({commit, state}) {
+    commit('setLoadingProperty', {prop: 'color', val: true})
+    window.axios
+      .get('/appearances/' + state.selected.selectedRace)
+      .then(
+        response => {
+          commit('setColors', response.data.data)
+          commit('setLoadingProperty', {prop: 'color', val: false})
+        })
+      .catch(e => {
+        commit('setLoadingProperty', {prop: 'color', val: false})
       })
   }
 }
