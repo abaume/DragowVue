@@ -1,26 +1,60 @@
 <template>
   <div>
-    <div v-for="color in colors" v-bind:key="color.id" style="background-image:url(../assets/dragons/gloom.jpg)"></div>
-    <!--<img v-for="color in colors" :src="color.src" v-bind:key="color.id"/>-->
-    <!--<img src="../assets/dragons/gloom.jpg"/>-->
+    <v-layout row wrap justify-space-around>
+      <v-flex sm12 xs12 md12 lg12>
+        <img class="principale" :src="maValeur">
+      </v-flex>
+      <v-flex sm12 xs12 md12 lg12>
+        <img class="tip" v-for="(color, i) in colors" v-on:click="maValeur = color.src" :src="color.src" :key="i"/>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
 <script>
+import {mapGetters, mapMutations} from 'vuex'
 export default {
   name: 'Caroussel',
   data: () => ({
+    maValeur: './static/assets/dragons/medusas.jpg',
     colors: [
-      {src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg', id: '1'},
-      {src: 'assets/dragons/gloom.jpg', id: '2'},
-      {src: '/assets/dragons/gloom.jpg', id: '3'},
-      {src: '', id: '4'},
-      {src: '', id: '5'}
+      {src: './static/assets/dragons/dragonVert.png'},
+      {src: './static/assets/dragons/gloom.jpg'},
+      {src: './static/assets/dragons/medusas.jpg'},
+      {src: './static/assets/dragons/scalebounds.jpg'},
+      {src: './static/assets/dragons/sentinel.jpg'}
     ]
-  })
+  }),
+  methods: {
+    ...mapMutations({
+      setDragonProperty: 'dragonCreate/setDragonProperty'
+    })
+  },
+  computed: {
+    ...mapGetters({
+      getDragon: 'dragonCreate/getDragon'
+    }),
+    selectedColor: {
+      get () {
+        return this.getDragon.color
+      },
+      set (value) {
+        this.setDragonProperty({prop: 'color', val: value})
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
-
+  .tip {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  .principale {
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+  }
 </style>

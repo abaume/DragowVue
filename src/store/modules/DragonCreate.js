@@ -15,7 +15,8 @@ const state = {
   dragon: {
     name: '',
     gender: '',
-    race: ''
+    race: '',
+    color: ''
   },
   loading: {
     race: false,

@@ -2,7 +2,6 @@
   <div class="hello">
     <v-container fluid>
       <h1>Créez votre premier dragon</h1>
-      <img src="../assets/dragons/the_shear.jpg"/>
       <v-layout row wrap justify-space-around>
         <v-flex xs12 md2>
           <v-form v-model="valid">
@@ -38,15 +37,9 @@
               <ul v-for="c in getColors" v-bind:key="c"><img :src="'../assets/dragons/medusas.jpg'"></ul>
             </v-list>
             <caroussel></caroussel>
-          <!--<v-layout>
-            <v-carousel :cycle="false" interval="0.00001">
-              <v-carousel-item v-for="(color, c) in getColors" src="dragons/medusas.jpg" :key="c">
-              </v-carousel-item>
-            </v-carousel>
-          </v-layout>-->
           </div>
         </v-flex>
-        <!--<v-flex xs12 md3>
+        <v-flex xs12 md3>
           <div v-if="getLoading.race">
             <v-progress-circular
               indeterminate
@@ -74,7 +67,7 @@
             </v-list>
           </v-card>
           </div>
-        </v-flex>-->
+        </v-flex>
       </v-layout>
       <v-btn color="blue" :dark='true'>Valider</v-btn>
     </v-container>
