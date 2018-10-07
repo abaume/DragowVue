@@ -2,10 +2,10 @@
   <div>
     <v-layout row wrap justify-space-around>
       <v-flex sm12 xs12 md12 lg12>
-        <img class="principale" :src="maValeur">
+        <img class="principale" :src="pathImgDragon">
       </v-flex>
       <v-flex sm12 xs12 md12 lg12>
-        <img class="tip" v-for="(color, i) in colors" v-on:click="maValeur = color.src" :src="color.src" :key="i"/>
+        <img class="tip" v-for="(color, i) in getColors" v-on:click="setDragonToPathColor(color.color.name)" :src="path + color.race.name + '/' + color.color.name + '.jpg'" :key="i"/>
       </v-flex>
     </v-layout>
   </div>
@@ -13,35 +13,31 @@
 
 <script>
 import {mapGetters, mapMutations} from 'vuex'
+
 export default {
   name: 'Caroussel',
   data: () => ({
-    maValeur: './static/assets/dragons/medusas.jpg',
-    colors: [
-      {src: './static/assets/dragons/dragonVert.png'},
-      {src: './static/assets/dragons/gloom.jpg'},
-      {src: './static/assets/dragons/medusas.jpg'},
-      {src: './static/assets/dragons/scalebounds.jpg'},
-      {src: './static/assets/dragons/sentinel.jpg'}
-    ]
+    path: window.IMG_PATH_DRAGONS + '/',
+    pathImgDragon: window.IMG_PATH_DRAGONS + '/gloom/gloom.jpg'
   }),
+  mounted () {
+  },
   methods: {
     ...mapMutations({
-      setDragonProperty: 'dragonCreate/setDragonProperty'
-    })
+      setDragonProperty: 'dragonCreate/setDragonProperty',
+      setDragonToPathProp: 'dragonCreate/setDragonToPathProp'
+    }),
+    setDragonToPathColor (color) {
+      this.setDragonToPathProp({prop: 'dragonToPathColor', val: color})
+      this.pathImgDragon = window.IMG_PATH_DRAGONS + '/' + this.getDragonToPath.dragonToPathRace + '/' + this.getDragonToPath.dragonToPathColor + '.jpg'
+    }
   },
   computed: {
     ...mapGetters({
-      getDragon: 'dragonCreate/getDragon'
-    }),
-    selectedColor: {
-      get () {
-        return this.getDragon.color
-      },
-      set (value) {
-        this.setDragonProperty({prop: 'color', val: value})
-      }
-    }
+      getColors: 'dragonCreate/getColors',
+      getDragon: 'dragonCreate/getDragon',
+      getDragonToPath: 'dragonCreate/getDragonToPath'
+    })
   }
 }
 </script>

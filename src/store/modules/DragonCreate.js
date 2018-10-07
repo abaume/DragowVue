@@ -7,14 +7,13 @@ const state = {
   races: [],
   genders: [],
   colors: [],
-  selected: {
-    selectedRace: 'bb1af05a-68a3-4de6-978c-c069101926c2',
-    selectedGender: '',
-    selectedColor: ''
+  dragonToPath: {
+    dragonToPathRace: '',
+    dragonToPathColor: ''
   },
   dragon: {
     name: '',
-    gender: '',
+    gender: 'male',
     race: '',
     color: ''
   },
@@ -38,6 +37,9 @@ const getters = {
   getDragon (state) {
     return state.dragon
   },
+  getDragonToPath (state) {
+    return state.dragonToPath
+  },
   getLoading (state) {
     return state.loading
   }
@@ -54,8 +56,8 @@ const mutations = {
   setGenders (state, val) {
     state.genders = val
   },
-  setSelectedProp (state, {prop, val}) {
-    state.selected[prop] = val
+  setDragonToPathProp (state, {prop, val}) {
+    state.dragonToPath[prop] = val
   },
   setDragonProperty (state, {prop, val}) {
     state.dragon[prop] = val
@@ -68,30 +70,43 @@ const mutations = {
 // actions
 const actions = {
   loadRaces ({commit}) {
-    commit('setLoadingProperty', {prop: 'race', val: true})
-    window.axios
-      .get('/races')
-      .then(
-        response => {
-          commit('setRaces', response.data)
+    return new Promise((resolve, reject) => {
+      commit('setLoadingProperty', {prop: 'race', val: true})
+      window.axios
+        .get('/races')
+        .then(
+          response => {
+            commit('setRaces', response.data)
+            commit('setDragonProperty', {prop: 'race', val: response.data[0].id})
+            commit('setDragonToPathProp', {prop: 'dragonToPathRace', val: response.data[0].name})
+            commit('setLoadingProperty', {prop: 'race', val: false})
+            resolve()
+          })
+        .catch(e => {
           commit('setLoadingProperty', {prop: 'race', val: false})
+          reject(e)
         })
-      .catch(e => {
-        commit('setLoadingProperty', {prop: 'race', val: false})
-      })
+    })
   },
   loadAppearance ({commit, state}) {
-    commit('setLoadingProperty', {prop: 'color', val: true})
-    window.axios
-      .get('/appearances/' + state.selected.selectedRace)
-      .then(
-        response => {
-          commit('setColors', response.data.data)
+    return new Promise((resolve, reject) => {
+      commit('setLoadingProperty', {prop: 'color', val: true})
+      window.axios
+        .get('/appearances/' + state.dragon.race)
+        .then(
+          response => {
+            commit('setColors', response.data.data)
+            commit('setDragonProperty', {prop: 'color', val: response.data.data[0].color.id})
+            commit('setDragonToPathProp', {prop: 'dragonToPathColor', val: response.data.data[0].color.name})
+            commit('setDragonToPathProp', {prop: 'dragonToPathRace', val: response.data.data[0].race.name})
+            commit('setLoadingProperty', {prop: 'color', val: false})
+            resolve()
+          })
+        .catch(e => {
           commit('setLoadingProperty', {prop: 'color', val: false})
+          reject(e)
         })
-      .catch(e => {
-        commit('setLoadingProperty', {prop: 'color', val: false})
-      })
+    })
   }
 }
 

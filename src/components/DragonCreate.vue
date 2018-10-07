@@ -14,7 +14,7 @@
               required
             ></v-text-field>
             <div class="title">Choisissez le sexe</div>
-            <v-radio-group v-model="selectedGend">
+            <v-radio-group v-model="gender">
               <v-radio
                 v-for="n in genders"
                 :key="n.name"
@@ -33,9 +33,6 @@
             chargement des couleurs
           </div>
           <div v-else>
-            <v-list>
-              <ul v-for="c in getColors" v-bind:key="c"><img :src="'../assets/dragons/medusas.jpg'"></ul>
-            </v-list>
             <caroussel></caroussel>
           </div>
         </v-flex>
@@ -60,7 +57,7 @@
               <template v-for="(item) in getRaces">
                 <v-list-tile :key="item.name">
                   <v-list-tile-content>
-                    <v-list-tile-title v-html="item.name" @click="loadAppearanceForSelectedRace(item.id)"></v-list-tile-title>
+                    <v-list-tile-title v-html="item.name" @click="loadAppearanceForDragonToPathRace(item.id)"></v-list-tile-title>
                   </v-list-tile-content>
                 </v-list-tile>
               </template>
@@ -85,7 +82,6 @@ export default {
     resource: [
       {src: '../assets/dragons/gloom.jpg'}
     ],
-    selectedGend: 'male',
     genders: [{name: 'mâle', value: 'male'}, {name: 'femelle', value: 'female'}],
     nameRules: [
       v => !!v || 'Un nom est requis',
@@ -95,7 +91,10 @@ export default {
   }),
   mounted () {
     this.$store.dispatch('dragonCreate/loadRaces')
-    this.$store.dispatch('dragonCreate/loadAppearance')
+      .then(() => {
+        this.$store.dispatch('dragonCreate/loadAppearance')
+      }
+      )
   },
   computed: {
     ...mapGetters({
@@ -112,15 +111,23 @@ export default {
       set (value) {
         this.setDragonProperty({prop: 'name', val: value})
       }
+    },
+    gender: {
+      get () {
+        return this.getDragon.gender
+      },
+      set (value) {
+        this.setDragonProperty({prop: 'gender', val: value})
+      }
     }
   },
   methods: {
     ...mapMutations({
       setDragonProperty: 'dragonCreate/setDragonProperty',
-      setSelectedProp: 'dragonCreate/setSelectedProp'
+      setDragonToPathProp: 'dragonCreate/setDragonToPathProp'
     }),
-    loadAppearanceForSelectedRace (race) {
-      this.setSelectedProp({prop: 'selectedRace', val: race})
+    loadAppearanceForDragonToPathRace (race) {
+      this.setDragonProperty({prop: 'race', val: race})
       this.$store.dispatch('dragonCreate/loadAppearance')
     }
   }
