@@ -2,40 +2,63 @@
   <div>
     <h1>Ajouter une couleur à une race</h1>
     <v-form>
-      <v-text-field
-        v-model="name"
-        :counter="30"
-        label="Race"
-        required
-      ></v-text-field>
-      <v-text-field
-        v-model="color"
-        :counter="30"
-        label="Couleur"
-        required
-      ></v-text-field>
-
+      <v-flex md6>
+      <v-select
+        v-model="race"
+        :items="this.getRaces"
+        item-text="name"
+        item-value="id"
+        label="Race"></v-select>
+        <v-text-field
+          label="Nom de la couleur"
+          v-model="color"
+        >
+        </v-text-field>
+        <v-btn @click="addAppearance">Enregistrer</v-btn>
+      </v-flex>
     </v-form>
   </div>
 </template>
 
 <script>
+import {mapGetters, mapMutations, mapActions} from 'vuex'
+
 export default {
   name: 'AddAppearance',
   data: () => ({
   }),
   mounted () {
-    this.$store.dispatch('loadRaces')
+    this.$store.dispatch('addAppearance/loadRaces')
   },
   computed: {
-    name: {
+    ...mapGetters({
+      getRaces: 'addAppearance/getRaces',
+      getAppearance: 'addAppearance/getAppearance'
+    }),
+    race: {
       get () {
-        return this.getDragon.name
+        return this.getAppearance.race
       },
       set (value) {
-        this.setDragonProperty({prop: 'name', val: value})
+        this.setAppearance({prop: 'race', val: value})
+      }
+    },
+    color: {
+      get () {
+        return this.getAppearance.colorName
+      },
+      set (value) {
+        this.setAppearance({prop: 'colorName', val: value})
       }
     }
+  },
+  methods: {
+    ...mapActions({
+      addAppearance: 'addAppearance/addAppearance'
+    }),
+    ...mapMutations({
+      setAppearance: 'addAppearance/setAppearance'
+    })
   }
 }
 </script>

@@ -11,7 +11,7 @@ const state = {
     colorImg: ''
   },
   loading: {
-    race: false
+    insertColor: false
   }
 }
 
@@ -19,6 +19,9 @@ const state = {
 const getters = {
   getRaces (state) {
     return state.races
+  },
+  getAppearance (state) {
+    return state.appearance
   },
   getLoading (state) {
     return state.loading
@@ -29,6 +32,9 @@ const getters = {
 const mutations = {
   setRaces (state, val) {
     state.races = val
+  },
+  setAppearance (state, {prop, val}) {
+    state.appearance[prop] = val
   },
   setLoadingProperty (state, {prop, val}) {
     state.loading[prop] = val
@@ -51,6 +57,28 @@ const actions = {
         .catch(e => {
           commit('setLoadingProperty', {prop: 'race', val: false})
           reject(e)
+        })
+    })
+  },
+  addAppearance ({state, commit}) {
+    return new Promise((resolve, reject) => {
+      commit('setLoadingProperty', {prop: 'insertColor', val: true})
+      window.axios.post('/appearances/', {
+        race: state.appearance.race,
+        color: state.appearance.colorName
+      })
+        .then(response => {
+          if (response.status === 409) {
+            console.log('already exist')
+          } else {
+            console.log('tout va bien')
+          }
+          commit('setLoadingProperty', {prop: 'insertColor', val: false})
+          resolve()
+        })
+        .catch(error => {
+          commit('setLoadingProperty', {prop: 'insertColor', val: false})
+          reject(error)
         })
     })
   }
