@@ -5,7 +5,7 @@
         <img class="principale" :src="pathImgDragon">
       </v-flex>
       <v-flex sm12 xs12 md12 lg12>
-        <img class="tip" v-for="(color, i) in getColors" v-on:click="setDragonToPathColor(color.color.name)" :src="path + color.race.name + '/' + color.color.name + '.jpg'" :key="i"/>
+        <img class="tip" v-for="(color, i) in getColors" v-on:click="setDragonToPathColor(color.color.name)" :src="path + color.race.name + '/' + color.color.name + '.png'" :key="i"/>
       </v-flex>
     </v-layout>
   </div>
@@ -29,7 +29,7 @@ export default {
     }),
     setDragonToPathColor (color) {
       this.setDragonToPathProp({prop: 'dragonToPathColor', val: color})
-      this.pathImgDragon = window.IMG_PATH_DRAGONS + '/' + this.getDragonToPath.dragonToPathRace + '/' + this.getDragonToPath.dragonToPathColor + '.jpg'
+      this.pathImgDragon = window.IMG_PATH_DRAGONS + '/' + this.getDragonToPath.dragonToPathRace + '/' + this.getDragonToPath.dragonToPathColor + '.png'
     }
   },
   computed: {

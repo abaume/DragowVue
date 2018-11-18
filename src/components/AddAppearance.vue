@@ -14,6 +14,7 @@
           v-model="color"
         >
         </v-text-field>
+        <input type="file" accept="image/png" ref="image" v-on:change="setImage()">
         <v-btn @click="addAppearance">Enregistrer</v-btn>
       </v-flex>
     </v-form>
@@ -58,7 +59,10 @@ export default {
     }),
     ...mapMutations({
       setAppearance: 'addAppearance/setAppearance'
-    })
+    }),
+    setImage () {
+      this.setAppearance({prop: 'colorImg', val: this.$refs['image'].files[0]})
+    }
   }
 }
 </script>

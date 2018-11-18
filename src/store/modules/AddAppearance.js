@@ -63,15 +63,32 @@ const actions = {
   addAppearance ({state, commit}) {
     return new Promise((resolve, reject) => {
       commit('setLoadingProperty', {prop: 'insertColor', val: true})
+      let formData = new FormData()
+      formData.append('image', state.appearance.colorImg)
+      formData.append('race', state.appearance.race)
+      formData.append('name', state.appearance.colorName)
       window.axios.post('/appearances/', {
         race: state.appearance.race,
         color: state.appearance.colorName
       })
         .then(response => {
-          if (response.status === 409) {
+          if (response.statusText === 'already exist') {
             console.log('already exist')
           } else {
             console.log('tout va bien')
+            window.axios.post('/appearances/image',
+              formData,
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              })
+              .then(() => {
+                resolve()
+              })
+              .catch(e => {
+                reject(e)
+              })
           }
           commit('setLoadingProperty', {prop: 'insertColor', val: false})
           resolve()
