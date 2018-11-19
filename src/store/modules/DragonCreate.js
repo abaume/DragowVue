@@ -32,7 +32,13 @@ const getters = {
     return state.genders
   },
   getColors (state) {
-    return state.colors
+    let colors = []
+    state.colors.forEach((color) => {
+      if (color.race.id === state.dragon.race) {
+        colors.push(color)
+      }
+    })
+    return colors
   },
   getDragon (state) {
     return state.dragon
@@ -69,36 +75,26 @@ const mutations = {
 
 // actions
 const actions = {
-  loadRaces ({commit}) {
-    return new Promise((resolve, reject) => {
-      commit('setLoadingProperty', {prop: 'race', val: true})
-      window.axios
-        .get('/races')
-        .then(
-          response => {
-            commit('setRaces', response.data)
-            commit('setDragonProperty', {prop: 'race', val: response.data[0].id})
-            commit('setDragonToPathProp', {prop: 'dragonToPathRace', val: response.data[0].name})
-            commit('setLoadingProperty', {prop: 'race', val: false})
-            resolve()
-          })
-        .catch(e => {
-          commit('setLoadingProperty', {prop: 'race', val: false})
-          reject(e)
-        })
-    })
-  },
   loadAppearance ({commit, state}) {
     return new Promise((resolve, reject) => {
       commit('setLoadingProperty', {prop: 'color', val: true})
       window.axios
-        .get('/appearances/' + state.dragon.race)
+        .get('/appearances')
         .then(
           response => {
             commit('setColors', response.data.data)
+            let races = []
+            let raceId = []
+            response.data.data.forEach((race) => {
+              if (raceId.indexOf(race.race.id) === -1) {
+                raceId.push(race.race.id)
+                races.push(race.race)
+              }
+            })
+            commit('setRaces', races)
             commit('setDragonProperty', {prop: 'color', val: response.data.data[0].color.id})
             commit('setDragonToPathProp', {prop: 'dragonToPathColor', val: response.data.data[0].color.name})
-            commit('setDragonToPathProp', {prop: 'dragonToPathRace', val: response.data.data[0].race.name})
+            commit('setDragonToPathProp', {prop: 'dragonToPathRace', val: races[0].name})
             commit('setLoadingProperty', {prop: 'color', val: false})
             resolve()
           })

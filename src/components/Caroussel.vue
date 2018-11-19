@@ -17,10 +17,10 @@ import {mapGetters, mapMutations} from 'vuex'
 export default {
   name: 'Caroussel',
   data: () => ({
-    path: window.IMG_PATH_DRAGONS + '/',
-    pathImgDragon: window.IMG_PATH_DRAGONS + '/gloom/gloom.jpg'
+    path: window.IMG_PATH_DRAGONS + '/'
   }),
   mounted () {
+    this.pathImgDragon = window.IMG_PATH_DRAGONS + '/' + this.getDragonToPath.dragonToPathRace + '/' + this.getDragonToPath.dragonToPathColor + '.png'
   },
   methods: {
     ...mapMutations({
@@ -36,8 +36,12 @@ export default {
     ...mapGetters({
       getColors: 'dragonCreate/getColors',
       getDragon: 'dragonCreate/getDragon',
-      getDragonToPath: 'dragonCreate/getDragonToPath'
-    })
+      getDragonToPath: 'dragonCreate/getDragonToPath',
+      getRaces: 'dragonCreate/getRaces'
+    }),
+    pathImgDragon: function () {
+      return window.IMG_PATH_DRAGONS + '/' + this.getDragonToPath.dragonToPathRace + '/' + this.getDragonToPath.dragonToPathColor + '.png'
+    }
   }
 }
 </script>

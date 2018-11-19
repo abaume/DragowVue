@@ -57,7 +57,7 @@
               <template v-for="(item) in getRaces">
                 <v-list-tile :key="item.name">
                   <v-list-tile-content>
-                    <v-list-tile-title v-html="item.name" @click="loadAppearanceForDragonToPathRace(item.id)"></v-list-tile-title>
+                    <v-list-tile-title v-html="item.name" @click="changeRace(item.id, item.name)"></v-list-tile-title>
                   </v-list-tile-content>
                 </v-list-tile>
               </template>
@@ -79,9 +79,6 @@ export default {
   name: 'DragonCreate',
   components: {Caroussel},
   data: () => ({
-    resource: [
-      {src: '../assets/dragons/gloom.jpg'}
-    ],
     genders: [{name: 'mâle', value: 'male'}, {name: 'femelle', value: 'female'}],
     nameRules: [
       v => !!v || 'Un nom est requis',
@@ -90,11 +87,7 @@ export default {
     valid: false
   }),
   mounted () {
-    this.$store.dispatch('dragonCreate/loadRaces')
-      .then(() => {
-        this.$store.dispatch('dragonCreate/loadAppearance')
-      }
-      )
+    this.$store.dispatch('dragonCreate/loadAppearance')
   },
   computed: {
     ...mapGetters({
@@ -126,9 +119,16 @@ export default {
       setDragonProperty: 'dragonCreate/setDragonProperty',
       setDragonToPathProp: 'dragonCreate/setDragonToPathProp'
     }),
-    loadAppearanceForDragonToPathRace (race) {
+    changeRace (race, name) {
       this.setDragonProperty({prop: 'race', val: race})
-      this.$store.dispatch('dragonCreate/loadAppearance')
+      this.setDragonToPathProp({prop: 'dragonToPathRace', val: name})
+      let newColors = []
+      this.getColors.forEach(color => {
+        if (color.race.id === race) {
+          newColors.push(color)
+        }
+      })
+      this.setDragonToPathProp({prop: 'dragonToPathColor', val: newColors[0].color.name})
     }
   }
 }
