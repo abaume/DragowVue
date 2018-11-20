@@ -15,11 +15,13 @@ const state = {
     name: '',
     gender: 'male',
     race: '',
-    color: ''
+    color: '',
+    appearance: ''
   },
   loading: {
     race: false,
-    color: false
+    color: false,
+    addDragon: false
   }
 }
 
@@ -75,7 +77,8 @@ const mutations = {
 
 // actions
 const actions = {
-  loadAppearance ({commit, state}) {
+  loadAppearance ({commit, state})
+  {
     return new Promise((resolve, reject) => {
       commit('setLoadingProperty', {prop: 'color', val: true})
       window.axios
@@ -94,6 +97,7 @@ const actions = {
             commit('setRaces', races)
             commit('setDragonProperty', {prop: 'color', val: response.data.data[0].color.id})
             commit('setDragonProperty', {prop: 'race', val: response.data.data[0].race.id})
+            commit('setDragonProperty', {prop: 'appearance', val: response.data.data[0].id})
             commit('setDragonToPathProp', {prop: 'dragonToPathColor', val: response.data.data[0].color.name})
             commit('setDragonToPathProp', {prop: 'dragonToPathRace', val: races[0].name})
             commit('setLoadingProperty', {prop: 'color', val: false})
@@ -102,6 +106,25 @@ const actions = {
         .catch(e => {
           commit('setLoadingProperty', {prop: 'color', val: false})
           reject(e)
+        })
+    })
+  },
+  addDragon ({commit, state})
+  {
+    return new Promise((resolve, reject) => {
+      commit('setLoadingProperty', {prop: 'addDragon', val: true})
+      window.axios.post('/dragons/', {
+        name: state.dragon.name,
+        gender: state.dragon.gender,
+        appearance_uuid: state.dragon.appearance
+      })
+        .then(() => {
+          commit('setLoadingProperty', {prop: 'addDragon', val: false})
+          resolve()
+        })
+        .catch(error => {
+          commit('setLoadingProperty', {prop: 'addDragon', val: false})
+          reject(error)
         })
     })
   }

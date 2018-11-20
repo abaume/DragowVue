@@ -66,13 +66,13 @@
           </div>
         </v-flex>
       </v-layout>
-      <v-btn color="blue" :dark='true'>Valider</v-btn>
+      <v-btn color="blue" :dark='true' @click="addDragon">Valider</v-btn>
     </v-container>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 import Caroussel from './Caroussel'
 
 export default {
@@ -118,6 +118,9 @@ export default {
     ...mapMutations({
       setDragonProperty: 'dragonCreate/setDragonProperty',
       setDragonToPathProp: 'dragonCreate/setDragonToPathProp'
+    }),
+    ...mapActions({
+      addDragon: 'dragonCreate/addDragon'
     }),
     changeRace (race, name) {
       this.setDragonProperty({prop: 'race', val: race})
