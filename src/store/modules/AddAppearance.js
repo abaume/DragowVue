@@ -50,7 +50,7 @@ const actions = {
         .get('/races')
         .then(
           response => {
-            commit('setRaces', response.data)
+            commit('setRaces', response.data.data)
             commit('setLoadingProperty', {prop: 'race', val: false})
             resolve()
           })

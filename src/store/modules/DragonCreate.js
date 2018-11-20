@@ -93,6 +93,7 @@ const actions = {
             })
             commit('setRaces', races)
             commit('setDragonProperty', {prop: 'color', val: response.data.data[0].color.id})
+            commit('setDragonProperty', {prop: 'race', val: response.data.data[0].race.id})
             commit('setDragonToPathProp', {prop: 'dragonToPathColor', val: response.data.data[0].color.name})
             commit('setDragonToPathProp', {prop: 'dragonToPathRace', val: races[0].name})
             commit('setLoadingProperty', {prop: 'color', val: false})
