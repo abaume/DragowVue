@@ -73,7 +73,7 @@
 
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex'
-import Caroussel from './Caroussel'
+import Caroussel from '../../modules/Caroussel'
 
 export default {
   name: 'DragonCreate',

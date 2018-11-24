@@ -10,9 +10,8 @@ const state = {
     resistance: 1,
     intelligence: 1,
     speed: 1,
-    
-    
-  }
+    discretion: 1
+  },
   loading: {
     insertRace: false
   }
@@ -20,11 +19,11 @@ const state = {
 
 // getters
 const getters = {
-  getRaces (state) {
-    return state.races
+  getName (state) {
+    return state.name
   },
-  getAppearance (state) {
-    return state.appearance
+  getStats (state) {
+    return state.statistics
   },
   getLoading (state) {
     return state.loading
@@ -33,11 +32,11 @@ const getters = {
 
 // mutations
 const mutations = {
-  setRaces (state, val) {
-    state.races = val
+  setName (state, val) {
+    state.name = val
   },
-  setAppearance (state, {prop, val}) {
-    state.appearance[prop] = val
+  setStats (state, {prop, val}) {
+    state.statistics[prop] = val
   },
   setLoadingProperty (state, {prop, val}) {
     state.loading[prop] = val

@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import Router from 'vue-router'
-import DragonCreate from '@/components/DragonCreate'
-import AddAppearance from '@/components/AddAppearance'
-import NotFound from '@/components/NotFound'
+import DragonCreate from '@/components/pages/first_dragon/DragonCreate'
+import AddAppearance from '@/components/pages/administration/AddAppearance'
+import AddRace from '@/components/pages/administration/AddRace'
+import NotFound from '@/components/pages/NotFound'
 
 Vue.use(Router)
 Vue.use(Vuetify)
@@ -21,10 +22,12 @@ export default new Router({
       component: AddAppearance
     },
     {
-      path: '/404', component: NotFound
+      path: '/ajouter-race',
+      name: 'race-create',
+      component: AddRace
     },
     {
-      path: '*', redirect: '/404'
+      path: '*', component: NotFound
     }
   ]
 })
