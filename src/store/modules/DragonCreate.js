@@ -77,8 +77,7 @@ const mutations = {
 
 // actions
 const actions = {
-  loadAppearance ({commit, state})
-  {
+  loadAppearance ({commit, state}) {
     return new Promise((resolve, reject) => {
       commit('setLoadingProperty', {prop: 'color', val: true})
       window.axios
@@ -109,8 +108,7 @@ const actions = {
         })
     })
   },
-  addDragon ({commit, state})
-  {
+  addDragon ({commit, state}) {
     return new Promise((resolve, reject) => {
       commit('setLoadingProperty', {prop: 'addDragon', val: true})
       window.axios.post('/dragons/', {

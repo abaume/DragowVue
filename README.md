@@ -1,13 +1,13 @@
 DragowVue
 ==
-Installation de l'environnement de dévelopement
+Installation de l'environnement de développement
 -
 
 
     npm install
     
 
-Lancer l'environnement de dévelopement
+Lancer l'environnement de développement
 -
 
 
