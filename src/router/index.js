@@ -5,12 +5,18 @@ import DragonCreate from '@/components/pages/first_dragon/DragonCreate'
 import AddAppearance from '@/components/pages/administration/AddAppearance'
 import AddRace from '@/components/pages/administration/AddRace'
 import NotFound from '@/components/pages/NotFound'
+import Index from '@/components/pages/Index'
 
 Vue.use(Router)
 Vue.use(Vuetify)
 
 export default new Router({
   routes: [
+    {
+      path: '/',
+      name: 'index',
+      component: Index
+    },
     {
       path: '/creer-dragon',
       name: 'dragon-create',
