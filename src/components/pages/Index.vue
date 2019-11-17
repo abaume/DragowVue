@@ -1,22 +1,17 @@
 <template>
   <div>
     <h1>Bienvenue sur dragow</h1>
-    <div class="connexion">
-      <h2>Je me connecte</h2>
-      <v-form>
-        <v-text-field label="Pseudo" ></v-text-field>
-        <v-text-field label="Mot de Passe"></v-text-field>
-        <v-btn>Envoyer</v-btn>
-      </v-form>
-    </div>
+    <Login/>
   </div>
 </template>
 
 <script>
 import {mapActions} from 'vuex'
+import Login from './authentication/Login'
 
 export default {
   name: 'Index',
+  components: {Login},
   data: () => ({
     pseudo: '',
     password: ''

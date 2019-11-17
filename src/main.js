@@ -14,6 +14,11 @@ window.axios.defaults.headers.common['Access-Control-Allow-Origin'] = window.API
 window.axios.defaults.withCredentials = true
 window.assets = './../assets/'
 
+const token = localStorage.getItem('user-token')
+if (token) {
+  window.axios.defaults.headers.common['Authorization'] = token
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
