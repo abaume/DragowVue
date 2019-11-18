@@ -4,31 +4,43 @@
       <v-card-title>Inscription</v-card-title>
 
       <div>
-        <v-form autocomplete="off" @submit.prevent="validate" v-if="!success" method="post">
+        <v-form v-model="valid">
 
-          <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.email }">
-            <v-text-field type="email" id="email" class="form-control" placeholder="user@example.com" v-model="email">E-mail</v-text-field>
-            <span class="help-block" v-if="has_error && errors.email">{{ errors.email }}</span>
+          <div class="form-group">
+            <v-text-field
+              type="email"
+              :rules="emailRules"
+              v-model="email"
+              label="email"
+              required></v-text-field>
           </div>
 
-          <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.name }">
-            <v-text-field type="text" id="name" class="form-control" v-model="name">Pseudo</v-text-field>
-            <span class="help-block" v-if="has_error && errors.name">{{ errors.name }}</span>
+          <div class="form-group">
+            <v-text-field
+              v-model="name"
+              label="Pseudo"
+              required></v-text-field>
           </div>
 
-          <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.password }">
-            <v-text-field type="password" id="password" class="form-control" v-model="password">Mot de passe</v-text-field>
-            <span class="help-block" v-if="has_error && errors.password">{{ errors.password }}</span>
+          <div class="form-group">
+            <v-text-field
+              type="password"
+              v-model="password"
+              label="Mot de passe"
+              required></v-text-field>
           </div>
 
-          <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.password }">
-            <v-text-field type="password" id="password_confirmation" class="form-control" v-model="password_confirmation">Confirmation du mot de passe</v-text-field>
+          <div class="form-group">
+            <v-text-field
+              type="password"
+              :rules="passwordRules"
+              v-model="password_confirmation"
+              label="Confirmation du mot de passe"
+              required></v-text-field>
           </div>
 
           <v-btn color="success"
-                 class="mr-4"
-                 @click="validate"
-                 type="submit">
+                 @click="register">
             Inscription
           </v-btn>
         </v-form>
@@ -45,9 +57,14 @@ export default {
       email: '',
       password: '',
       password_confirmation: '',
-      has_error: false,
-      errors: {},
-      success: false
+      emailRules: [
+        v => !!v || 'Un email est requis',
+        v => this.validEmail(v) || 'Votre adresse mail n\'est pas correcte'
+      ],
+      passwordRules: [
+        v => this.password === v || 'Les mots de passe ne correspondent pas'
+      ],
+      valid: false
     }
   },
 
@@ -58,22 +75,10 @@ export default {
         this.$router.push('/')
       })
     },
-    validate (e) {
-      if (this.name === '') {
-        this.errors.name = 'Un nom / pseudo est nécessaire'
-      }
-      if (this.email === '') {
-        this.errors.email = 'Un email valide est nécessaire'
-      }
-      if (this.password === '') {
-        this.errors.password = 'Un mot de passe valide est nécessaire'
-      }
-
-      if (!this.errors !== {}) {
-        this.has_error = true
-      }
-
-      e.preventDefault()
+    validEmail: function (email) {
+      // eslint-disable-next-line no-useless-escape
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(email)
     }
   }
 }
