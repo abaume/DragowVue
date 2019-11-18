@@ -40,6 +40,7 @@
           </div>
 
           <v-btn color="success"
+                 :dark="true"
                  @click="register">
             Inscription
           </v-btn>
@@ -71,7 +72,7 @@ export default {
   methods: {
     register () {
       const { username, password } = this
-      this.$store.dispatch('AUTH_REQUEST', { username, password }).then(() => {
+      this.$store.dispatch('authentication/REGISTER_REQUEST', { username, password }).then(() => {
         this.$router.push('/')
       })
     },
