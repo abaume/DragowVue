@@ -30,10 +30,11 @@ const actions = {
   REGISTER_REQUEST: ({commit, dispatch}, user) => {
     return new Promise((resolve, reject) => { // The Promise used for router redirect in login
       commit('AUTH_REQUEST')
-      window.axios.post('/register', {
+      window.axios.post('/users/register', {
         email: user.email,
         password: user.password,
-        name: user.name
+        name: user.name,
+        password_confirmation: user.passwordConfirmation
       })
         .then(resp => {
           const token = resp.data.token
@@ -51,7 +52,7 @@ const actions = {
   AUTH_REQUEST: ({commit, dispatch}, user) => {
     return new Promise((resolve, reject) => { // The Promise used for router redirect in login
       commit('AUTH_REQUEST')
-      window.axios.post('/login', {
+      window.axios.post('/users/login', {
         email: user.email,
         password: user.password
       })
