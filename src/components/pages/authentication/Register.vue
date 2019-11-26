@@ -80,7 +80,7 @@ export default {
     register () {
       const { email, name, password, passwordConfirmation } = this
       this.$store.dispatch('authentication/REGISTER_REQUEST', { email, name, password, passwordConfirmation }).then(() => {
-        this.$router.push('/')
+        this.$router.push('creer-dragon')
       })
     },
     validEmail: function (email) {
