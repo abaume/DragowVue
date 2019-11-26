@@ -2,9 +2,7 @@
   <div class="container">
     <v-card>
       <v-card-title>Inscription</v-card-title>
-
-      <div>
-        <v-form v-model="valid">
+      <v-form v-model="valid">
 
           <div class="form-group">
             <v-text-field
@@ -48,7 +46,6 @@
             Inscription
           </v-btn>
         </v-form>
-      </div>
     </v-card>
   </div>
 </template>

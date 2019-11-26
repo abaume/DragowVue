@@ -53,7 +53,7 @@ const actions = {
     return new Promise((resolve, reject) => { // The Promise used for router redirect in login
       commit('AUTH_REQUEST')
       window.axios.post('/users/login', {
-        email: user.email,
+        name: user.pseudo,
         password: user.password
       })
         .then(resp => {
